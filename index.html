@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study & Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <h2>Study & Home</h2>
+            <p>Seu cantinho de organização</p>
+
+            <nav>
+                <button onclick="mostrarPagina('inicio')">Início</button>
+                <button onclick="mostrarPagina('tarefas')">Tarefas</button>
+                <button onclick="mostrarPagina('notas')">Minhas notas</button>
+                <button onclick="mostrarPagina('materias')">Matérias</button>
+                <button onclick="mostrarPagina('calendario')">Calendário</button>
+                <button onclick="mostrarPagina('pomodoro')">Pomodoro</button>
+            </nav>
+        </aside>
+
+        <main>
+            <header>
+                <p>SEU ESPAÇO, SEU RITMO ✿</p>
+                <h1>Olá! Vamos organizar o dia?</h1>
+                <p>Um passo de cada vez já é um grande avanço. Vamos juntos nessa jornada de organização e produtividade!</p>
+            </header>
+
+            <section id="conteudo">
+                <div class="welcome-card">
+                    <h2>Bem-vinda(o) ao seu planner!</h2>
+                    <p>Organize seus estudos, suas tarefas e seus momentos de descanso.</p>
+                </div>
+
+                <div class="cards">
+                    <article>
+                        <span>♡</span>
+                        <h3>Minhas tarefas</h3>
+                        <p>Organize o que precisa fazer.</p>
+                    </article>
+
+                    <article>
+                        <span>✎</span>
+                        <h3>Minhas notas</h3>
+                        <p>Guarde suas ideias e resumos.</p>
+                    </article>
+
+                    <article>
+                        <span>☾</span>
+                        <h3>Hora de estudar</h3>
+                        <p>Pequenos estudos, grandes conquistas.</p>
+                    </article>
+                </div>
+
+                <div class="tasks-section">
+                    <h2>Minhas tarefas ♡</h2>
+                    <p>Um pouquinho de cada vez.</p>
+
+                    <form id="form-tarefa">
+                        <input type="text" id="nome-tarefa" placeholder="O que você precisa fazer?" required>
+
+                        <select id="categoria-tarefa">
+                            <option value="Estudos">Estudos</option>
+                            <option value="Casa">Casa</option>
+                            <option value="Pessoal">Pessoal</option>
+                        </select>
+
+                        <button type="submit">Adicionar tarefa</button>
+                    </form>
+
+                    <ul id="lista-tarefas"></ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
