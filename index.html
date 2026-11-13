@@ -30,32 +30,37 @@
             </header>
 
             <section id="conteudo">
-                <div class="welcome-card">
-                    <h2>Bem-vinda(o) ao seu planner!</h2>
-                    <p>Organize seus estudos, suas tarefas e seus momentos de descanso.</p>
+
+                <!-- Página inicial -->
+                <div id="inicio">
+                    <div class="welcome-card">
+                        <h2>Bem-vinda(o) ao seu planner!</h2>
+                        <p>Organize seus estudos, suas tarefas e seus momentos de descanso.</p>
+                    </div>
+
+                    <div class="cards">
+                        <article>
+                            <span>♡</span>
+                            <h3>Minhas tarefas</h3>
+                            <p>Organize o que precisa fazer.</p>
+                        </article>
+
+                        <article>
+                            <span>✎</span>
+                            <h3>Minhas notas</h3>
+                            <p>Guarde suas ideias e resumos.</p>
+                        </article>
+
+                        <article>
+                            <span>☾</span>
+                            <h3>Hora de estudar</h3>
+                            <p>Pequenos estudos, grandes conquistas.</p>
+                        </article>
+                    </div>
                 </div>
 
-                <div class="cards">
-                    <article>
-                        <span>♡</span>
-                        <h3>Minhas tarefas</h3>
-                        <p>Organize o que precisa fazer.</p>
-                    </article>
-
-                    <article>
-                        <span>✎</span>
-                        <h3>Minhas notas</h3>
-                        <p>Guarde suas ideias e resumos.</p>
-                    </article>
-
-                    <article>
-                        <span>☾</span>
-                        <h3>Hora de estudar</h3>
-                        <p>Pequenos estudos, grandes conquistas.</p>
-                    </article>
-                </div>
-
-                <div class="tasks-section">
+                <!-- Lista de tarefas -->
+                <div id="tarefas" class="tasks-section">
                     <h2>Minhas tarefas ♡</h2>
                     <p>Um pouquinho de cada vez.</p>
 
@@ -74,15 +79,18 @@
                     <ul id="lista-tarefas"></ul>
                 </div>
 
-                <!-- caderno de notas -->
-                <div class="notes-section">
+                <!-- Caderno de notas -->
+                <div id="notas" class="notes-section">
                     <h2>Meu caderno de notas ✎</h2>
                     <p>Guarde suas ideias, resumos e lembretes.</p>
 
                     <form id="form-nota">
                         <input type="text" id="titulo-nota" placeholder="Título da nota" required>
 
-                        <input type="text" id="materia-nota" placeholder="Matéria ou assunto da nota" required>
+                        <select id="materia-nota" required>
+                            <option value="">Selecione uma matéria</option>
+                            <option value="Sem matéria">Sem matéria</option>
+                        </select>
 
                         <textarea id="texto-nota" placeholder="Escreva sua nota aqui..." rows="5" required></textarea>
 
@@ -91,6 +99,26 @@
 
                     <div id="lista-notas"></div>
                 </div>
+
+                <!-- Organização por matérias -->
+                <div id="materias" class="materias-section">
+                    <h2>Minhas matérias 📚</h2>
+                    <p>Organize seus estudos do seu jeitinho.</p>
+
+                    <form id="form-materia">
+                        <input type="text" id="nome-materia" placeholder="Nome da matéria" required>
+
+                        <div class="campo-cor">
+                            <label for="cor-materia">Escolha uma cor:</label>
+                            <input type="color" id="cor-materia" value="#EBD9F5">
+                        </div>
+
+                        <button type="submit">Adicionar matéria ♡</button>
+                    </form>
+
+                    <div id="lista-materias"></div>
+                </div>
+
             </section>
         </main>
     </div>

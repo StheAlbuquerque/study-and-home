@@ -3,15 +3,15 @@ const campoNome = document.getElementById("nome-tarefa");
 const campoCategoria = document.getElementById("categoria-tarefa");
 const listaTarefas = document.getElementById("lista-tarefas");
 
-// Esse comando vai recuperar as tarefas salvas no navegador
+// Recuperar tarefas salvas no navegador
 let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
 
-// Função para salvar as tarefas no localStorage
+// Salvar tarefas no localStorage
 function salvarTarefas() {
     localStorage.setItem("tarefas", JSON.stringify(tarefas));
 }
 
-// Função para mostrar as tarefas na tela
+// Mostrar as tarefas na tela
 function mostrarTarefas() {
     listaTarefas.innerHTML = "";
 
@@ -26,34 +26,34 @@ function mostrarTarefas() {
         texto.textContent = tarefa.nome + " - " + tarefa.categoria;
 
         const botaoConcluir = document.createElement("button");
-        botaoConcluir.textContent = tarefa.concluida 
-            ? "Desfazer" 
+        botaoConcluir.textContent = tarefa.concluida
+            ? "Desfazer"
             : "Concluir";
 
-            botaoConcluir.addEventListener("click", function() {
-                tarefas[indice].concluida = !tarefas[indice].concluida;
-                salvarTarefas();
-                mostrarTarefas();
-            });
-
-            const botaoExcluir = document.createElement("button");
-            botaoExcluir.textContent = "Excluir";
-
-            botaoExcluir.addEventListener("click", function() {
-                tarefas.splice(indice, 1);
-                salvarTarefas();
-                mostrarTarefas();
-            });
-
-            item.appendChild(texto);
-            item.appendChild(botaoConcluir);
-            item.appendChild(botaoExcluir);
-
-            listaTarefas.appendChild(item);
+        botaoConcluir.addEventListener("click", function() {
+            tarefas[indice].concluida = !tarefas[indice].concluida;
+            salvarTarefas();
+            mostrarTarefas();
         });
+
+        const botaoExcluir = document.createElement("button");
+        botaoExcluir.textContent = "Excluir";
+
+        botaoExcluir.addEventListener("click", function() {
+            tarefas.splice(indice, 1);
+            salvarTarefas();
+            mostrarTarefas();
+        });
+
+        item.appendChild(texto);
+        item.appendChild(botaoConcluir);
+        item.appendChild(botaoExcluir);
+
+        listaTarefas.appendChild(item);
+    });
 }
 
-// Função para adicionar uma nova tarefa
+// Adicionar uma nova tarefa
 formulario.addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -77,9 +77,9 @@ formulario.addEventListener("submit", function(event) {
     formulario.reset();
 });
 
-
-// Mostrar as tarefas ao carregar a página
+// Mostrar tarefas ao carregar a página
 mostrarTarefas();
+
 
 // Elementos do caderno de notas
 const formularioNota = document.getElementById("form-nota");
@@ -91,62 +91,60 @@ const listaNotas = document.getElementById("lista-notas");
 // Recuperar notas salvas no navegador
 let notas = JSON.parse(localStorage.getItem("notas")) || [];
 
+// Salvar notas no localStorage
 function salvarNotas() {
     localStorage.setItem("notas", JSON.stringify(notas));
 }
 
-// Função para mostrar as notas na tela
+// Mostrar as notas na tela
 function mostrarNotas() {
     listaNotas.innerHTML = "";
 
     notas.forEach(function(nota, indice) {
-
-        // criar um elemento para cada nota
         const item = document.createElement("li");
+
         if (nota.texto.length <= 180) {
-        item.classList.add("nota-pequena");
+            item.classList.add("nota-pequena");
         } else {
-        item.classList.add("nota-grande");
+            item.classList.add("nota-grande");
         }
 
-        // criar o título da nota
         const titulo = document.createElement("h3");
         titulo.textContent = nota.titulo;
 
-        // mostrar a matéria
         const materia = document.createElement("p");
         materia.textContent = nota.materia;
         materia.classList.add("materia-nota-card");
 
-        // mostrar o conteúdo
         const texto = document.createElement("p");
         texto.textContent = nota.texto;
 
         const botaoExcluir = document.createElement("button");
-            botaoExcluir.textContent = "Excluir";
+        botaoExcluir.textContent = "Excluir";
 
-            botaoExcluir.addEventListener("click", function() {
-                notas.splice(indice, 1);
-                salvarNotas();
-                mostrarNotas();
-            });
-
-            item.appendChild(titulo);
-            item.appendChild(materia);
-            item.appendChild(texto);
-            item.appendChild(botaoExcluir);
-
-            listaNotas.appendChild(item);
+        botaoExcluir.addEventListener("click", function() {
+            notas.splice(indice, 1);
+            salvarNotas();
+            mostrarNotas();
         });
+
+        item.appendChild(titulo);
+        item.appendChild(materia);
+        item.appendChild(texto);
+        item.appendChild(botaoExcluir);
+
+        listaNotas.appendChild(item);
+    });
 }
 
+// Adicionar uma nova nota
 formularioNota.addEventListener("submit", function(event) {
     event.preventDefault();
 
     const titulo = tituloNota.value.trim();
     const texto = textoNota.value.trim();
 
-    if (titulo === "" || texto === "") {
+    if (titulo === "" || texto === "" || materiaNota.value === "") {
         return;
     }
 
@@ -165,3 +163,145 @@ formularioNota.addEventListener("submit", function(event) {
 });
 
 mostrarNotas();
+
+
+// Elementos da organização por matérias
+const formularioMateria = document.getElementById("form-materia");
+const nomeMateria = document.getElementById("nome-materia");
+const corMateria = document.getElementById("cor-materia");
+const listaMaterias = document.getElementById("lista-materias");
+
+// Recuperar matérias salvas no navegador
+let materias = JSON.parse(localStorage.getItem("materias")) || [];
+
+// Converter matérias antigas para o novo formato
+materias = materias.map(function(materia) {
+    if (typeof materia === "string") {
+        return {
+            nome: materia,
+            cor: "#EBD9F5"
+        };
+    }
+
+    return materia;
+});
+
+// Salvar matérias no localStorage
+function salvarMaterias() {
+    localStorage.setItem("materias", JSON.stringify(materias));
+}
+
+// Atualizar opções de matérias no caderno de notas
+function atualizarOpcoesMaterias() {
+    materiaNota.innerHTML = "";
+
+    const opcaoPadrao = document.createElement("option");
+    opcaoPadrao.value = "";
+    opcaoPadrao.textContent = "Selecione uma matéria";
+    materiaNota.appendChild(opcaoPadrao);
+
+    const opcaoSemMateria = document.createElement("option");
+    opcaoSemMateria.value = "Sem matéria";
+    opcaoSemMateria.textContent = "Sem matéria";
+    materiaNota.appendChild(opcaoSemMateria);
+
+    materias.forEach(function(materia) {
+        const opcao = document.createElement("option");
+        opcao.value = materia.nome;
+        opcao.textContent = materia.nome;
+        materiaNota.appendChild(opcao);
+    });
+}
+
+// Mostrar as matérias na tela
+function mostrarMaterias() {
+    listaMaterias.innerHTML = "";
+
+    materias.forEach(function(materia, indice) {
+        const item = document.createElement("div");
+        item.classList.add("card-materia");
+        item.style.backgroundColor = materia.cor;
+
+        const nome = document.createElement("h3");
+        nome.textContent = materia.nome;
+
+        const areaCor = document.createElement("div");
+        areaCor.classList.add("cor-card-materia");
+
+        const textoCor = document.createElement("span");
+        textoCor.textContent = "Alterar cor:";
+
+        const seletorCor = document.createElement("input");
+        seletorCor.type = "color";
+        seletorCor.value = materia.cor;
+
+        seletorCor.addEventListener("input", function() {
+            materias[indice].cor = seletorCor.value;
+
+            item.style.backgroundColor = seletorCor.value;
+
+            salvarMaterias();
+        });
+
+        areaCor.appendChild(textoCor);
+        areaCor.appendChild(seletorCor);
+
+        const botaoExcluir = document.createElement("button");
+        botaoExcluir.textContent = "Excluir";
+
+        botaoExcluir.addEventListener("click", function() {
+            materias.splice(indice, 1);
+            salvarMaterias();
+            mostrarMaterias();
+        });
+
+        item.appendChild(nome);
+        item.appendChild(areaCor);
+        item.appendChild(botaoExcluir);
+
+        listaMaterias.appendChild(item);
+    });
+
+    atualizarOpcoesMaterias();
+}
+
+// Adicionar uma nova matéria
+formularioMateria.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const nome = nomeMateria.value.trim();
+
+    if (nome === "") {
+        return;
+    }
+
+    const novaMateria = {
+        nome: nome,
+        cor: corMateria.value
+    };
+
+    materias.push(novaMateria);
+
+    salvarMaterias();
+    mostrarMaterias();
+
+    formularioMateria.reset();
+});
+
+// Salvar a conversão das matérias antigas
+salvarMaterias();
+
+// Mostrar matérias ao carregar a página
+mostrarMaterias();
+
+
+// Função para navegar entre as páginas
+function mostrarPagina(pagina) {
+    const secoes = ["inicio", "tarefas", "notas", "materias"];
+
+    secoes.forEach(function(nome) {
+        document.getElementById(nome).style.display = "none";
+    });
+
+    document.getElementById(pagina).style.display = "block";
+}
