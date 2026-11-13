@@ -418,3 +418,157 @@ header p:last-child {
 #lista-notas li.nota-grande:hover {
     transform: translateY(-4px);
 }
+
+/* Organização por matérias */
+
+.materias-section {
+    margin-top: 30px;
+    padding: 28px;
+    background-color: #F8F6FC;
+    border: 1px solid #D9D5E8;
+    border-radius: 18px;
+}
+
+.materias-section h2 {
+    margin-bottom: 8px;
+}
+
+.materias-section > p {
+    margin-bottom: 22px;
+    color: #77718B;
+}
+
+/* Formulário de matérias */
+#form-materia {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+#nome-materia {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px;
+    border: 1px solid #B49CCE;
+    border-radius: 10px;
+    background-color: white;
+    color: #413D5E;
+    font-size: 14px;
+    outline: none;
+}
+
+#nome-materia:focus {
+    border-color: #8D75AE;
+    box-shadow: 0 0 5px #B49CCE;
+}
+
+/* seletor de cores */
+
+#cor-materia {
+    width: 48px;
+    height: 42px;
+    padding: 4px;
+    border: 1px solid #B49CCE;
+    border-radius: 10px;
+    background-color: white;
+    cursor: pointer;
+}
+
+#form-materia button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    background-color: #B49CCE;
+    color: #413D5E;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#form-materia button:hover {
+    background-color: #C2DDAE;
+}
+
+/* cards das matérias */
+
+#lista-materias {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 18px;
+}
+
+.card-materia {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 130px;
+    padding: 20px;
+    border: 1px solid rgba(65, 61, 94, 0.10);
+    border-radius: 16px;
+    color: #413D5E;
+    box-shadow: 2px 4px 10px rgba(65, 61, 94, 0.10);
+    transition: 0.3s;
+    overflow-wrap: anywhere; 
+}
+
+.card-materia:hover {
+    transform: translateY(-4px);
+    box-shadow: 3px 7px 14px rgba(65, 61, 94, 0.16);
+}
+
+.card-materia h3 {
+    font-size: 17px;
+}
+
+.card-materia button {
+    align-self: flex-start;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.65);
+    color: #413D5E;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card-materia button:hover {
+    background-color: white;
+}
+
+/* Adaptação para telas menores */
+
+@media (max-width: 600px) {
+    #form-materia {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #cor-materia {
+        width: 100%;
+    }
+
+    #lista-materias {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cor-card-materia {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #413D5E;
+}
+
+.cor-card-materia input {
+    width: 38px;
+    height: 32px;
+    padding: 3px;
+    border: 1px solid rgba(65, 61, 94, 0.2);
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+}
