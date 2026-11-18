@@ -302,7 +302,8 @@ function mostrarPagina(pagina) {
         "tarefas",
         "notas",
         "materias",
-        "calendario"
+        "calendario",
+        "pomodoro"
     ];
 
     secoes.forEach(function(nome) {
@@ -539,3 +540,226 @@ tituloFormularioEvento.textContent =
 
 mostrarCalendario();
 mostrarEventos();
+
+// Elementos do Pomodoro
+const tempoPomodoro = document.getElementById("tempo-pomodoro");
+const modoPomodoro = document.getElementById("modo-pomodoro");
+const mensagemPomodoro = document.getElementById("mensagem-pomodoro");
+
+const campoTempoEstudo = document.getElementById("tempo-estudo");
+const campoPausaCurta = document.getElementById("tempo-pausa-curta");
+const campoPausaLonga = document.getElementById("tempo-pausa-longa");
+
+const botaoSalvarTempos = document.getElementById("salvar-tempos");
+const modoFuncionamento = document.getElementById("modo-funcionamento");
+
+const ciclosPomodoro = document.getElementById("ciclos-pomodoro");
+
+// Recuperar os tempos salvos no navegador
+let duracaoEstudo = Number(localStorage.getItem("tempoEstudo")) || 25;
+let duracaoPausaCurta = Number(localStorage.getItem("pausaCurta")) || 5;
+let duracaoPausaLonga = Number(localStorage.getItem("pausaLonga")) || 15;
+
+// Mostrar os tempos salvos nos campos
+campoTempoEstudo.value = duracaoEstudo;
+campoPausaCurta.value = duracaoPausaCurta;
+campoPausaLonga.value = duracaoPausaLonga;
+
+// Configurações iniciais
+let tempoRestante = duracaoEstudo * 60;
+let intervaloPomodoro = null;
+let ciclosConcluidos = 0;
+let tipoAtual = "estudo";
+
+// Salvar os tempos personalizados
+botaoSalvarTempos.addEventListener("click", function() {
+    const estudo = Number(campoTempoEstudo.value);
+    const pausaCurta = Number(campoPausaCurta.value);
+    const pausaLonga = Number(campoPausaLonga.value);
+
+    if (
+        !Number.isInteger(estudo) || estudo <= 0 ||
+        !Number.isInteger(pausaCurta) || pausaCurta <= 0 ||
+        !Number.isInteger(pausaLonga) || pausaLonga <= 0
+    ) {
+        alert("Digite tempos válidos, em minutos!");
+        return;
+    }
+
+    duracaoEstudo = estudo;
+    duracaoPausaCurta = pausaCurta;
+    duracaoPausaLonga = pausaLonga;
+
+    // Guardar os tempos no navegador
+    localStorage.setItem("tempoEstudo", duracaoEstudo);
+    localStorage.setItem("pausaCurta", duracaoPausaCurta);
+    localStorage.setItem("pausaLonga", duracaoPausaLonga);
+
+    if (intervaloPomodoro === null && tipoAtual === "estudo") {
+        tempoRestante = duracaoEstudo * 60;
+
+        tempoPomodoro.textContent =
+            String(duracaoEstudo).padStart(2, "0") + ":00";
+    }
+
+    alert("Tempos personalizados salvos! ♡");
+});
+
+// Elementos dos botões do Pomodoro
+
+const botaoIniciar = document.getElementById("iniciar-pomodoro");
+const botaoPausar = document.getElementById("pausar-pomodoro");
+const botaoReiniciar = document.getElementById("reiniciar-pomodoro");
+
+// Cartão do Pomodoro
+const cartaoPomodoro = document.querySelector(".pomodoro-card");
+
+// Atualizar o relógio na tela
+function atualizarRelogio() {
+    const minutos = Math.floor(tempoRestante / 60);
+    const segundos = tempoRestante % 60;
+
+    tempoPomodoro.textContent =
+        String(minutos).padStart(2, "0") + ":" +
+        String(segundos).padStart(2, "0");
+}
+
+// Iniciar o cronômetro
+botaoIniciar.addEventListener("click", function() {
+    if (intervaloPomodoro !== null) {
+        return;
+    }
+
+    intervaloPomodoro = setInterval(function() {
+        if (tempoRestante > 0) {
+            tempoRestante--;
+            atualizarRelogio();
+        } else {
+            finalizarPomodoro();
+        }
+    }, 1000);
+});
+
+// Pausar o cronômetro
+botaoPausar.addEventListener("click", function() {
+    clearInterval(intervaloPomodoro);
+    intervaloPomodoro = null;
+});
+
+// Reiniciar o cronômetro
+botaoReiniciar.addEventListener("click", function() {
+    clearInterval(intervaloPomodoro);
+    intervaloPomodoro = null;
+
+    if (tipoAtual === "estudo") {
+        tempoRestante = duracaoEstudo * 60;
+    }
+
+    atualizarRelogio();
+
+    mensagemPomodoro.textContent =
+        "Prepare-se para mais uma sessão! ♡";
+});
+
+// Trocar o momento do Pomodoro
+function selecionarModo(tipo) {
+    clearInterval(intervaloPomodoro);
+    intervaloPomodoro = null;
+
+    tipoAtual = tipo;
+
+    // Alterar a cor do cartão conforme o momento
+    cartaoPomodoro.classList.remove(
+        "pomodoro-estudo",
+        "pomodoro-pausa-curta",
+        "pomodoro-pausa-longa"
+    );
+
+    cartaoPomodoro.classList.add("pomodoro-" + tipo);
+
+    if (tipo === "estudo") {
+        tempoRestante = duracaoEstudo * 60;
+        modoPomodoro.textContent = "Hora de estudar 📚";
+        mensagemPomodoro.textContent = "Vamos focar nos estudos!";
+    }
+
+    else if (tipo === "pausa-curta") {
+        tempoRestante = duracaoPausaCurta * 60;
+        modoPomodoro.textContent = "Pausa curta 🌷";
+        mensagemPomodoro.textContent = "Hora de respirar um pouquinho!";
+    }
+
+    else if (tipo === "pausa-longa") {
+        tempoRestante = duracaoPausaLonga * 60;
+        modoPomodoro.textContent = "Pausa longa ☁️";
+        mensagemPomodoro.textContent = "Você merece um descanso maior!";
+    }
+
+    atualizarRelogio();
+}
+
+// Botões para escolher o momento
+document.getElementById("modo-estudo").addEventListener("click", function() {
+    selecionarModo("estudo");
+});
+
+document.getElementById("modo-pausa-curta").addEventListener("click", function() {
+    selecionarModo("pausa-curta");
+});
+
+document.getElementById("modo-pausa-longa").addEventListener("click", function() {
+    selecionarModo("pausa-longa");
+});
+
+// Finalizar uma sessão do Pomodoro
+function finalizarPomodoro() {
+    clearInterval(intervaloPomodoro);
+    intervaloPomodoro = null;
+
+    if (tipoAtual === "estudo") {
+        ciclosConcluidos++;
+
+        ciclosPomodoro.textContent = ciclosConcluidos;
+
+        if (modoFuncionamento.value === "automatico") {
+
+            if (ciclosConcluidos % 4 === 0) {
+                selecionarModo("pausa-longa");
+            } else {
+                selecionarModo("pausa-curta");
+            }
+
+            alert("Estudo concluído! Hora de descansar! 🌷");
+            botaoIniciar.click();
+
+        } else {
+
+            if (ciclosConcluidos % 4 === 0) {
+                mensagemPomodoro.textContent =
+                    "Estudo concluído! Que tal uma pausa longa? ☁️";
+            } else {
+                mensagemPomodoro.textContent =
+                    "Estudo concluído! Que tal uma pausa curta? 🌷";
+            }
+
+            alert("Sua sessão de estudo terminou! 🍅");
+        }
+
+    } else {
+
+        if (modoFuncionamento.value === "automatico") {
+            selecionarModo("estudo");
+
+            alert("Descanso concluído! Vamos voltar aos estudos! 📚");
+            botaoIniciar.click();
+
+        } else {
+            mensagemPomodoro.textContent =
+                "Sua pausa terminou! Quando quiser, volte a estudar. ♡";
+
+            alert("Sua pausa terminou! 💗");
+        }
+    }
+}
+// Atualizar o relógio ao carregar a página
+atualizarRelogio();
