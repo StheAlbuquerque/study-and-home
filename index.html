@@ -119,6 +119,60 @@
                     <div id="lista-materias"></div>
                 </div>
 
+                <!-- Calendário -->
+                <div id="calendario" class="calendar-section">
+                    <h2>Meu calendário 📅</h2>
+                    <p>Organize suas provas, trabalhos e compromissos.</p>
+
+                    <!-- Navegação do calendário -->
+                    <div class="calendar-header">
+                        <button id="mes-anterior" type="button">❮</button>
+                        <h3 id="mes-ano"></h3>
+                        <button id="proximo-mes" type="button">❯</button>
+                    </div>
+
+                    <!-- Dias da semana e dias do mês -->
+                     <div class="calendar-weekdays">
+                        <span>Dom</span>
+                        <span>Seg</span>
+                        <span>Ter</span>
+                        <span>Qua</span>
+                        <span>Qui</span>
+                        <span>Sex</span>
+                        <span>Sáb</span>
+                    </div>
+
+                    <div id="dias-calendario" class="calendar-days"></div>
+
+                    <!-- Cadastro de eventos -->
+                     <div id="formulario-evento" class="event-section">
+                        <h3 id="titulo-form-evento">Adicionar compromisso ♡</h3>
+
+                        <form id="form-evento">
+                            <input type="text" id="nome-evento"
+                                placeholder="Nome do compromisso" required>
+
+                            <select id="tipo-evento" required>
+                                <option value="Prova">Prova</option>
+                                <option value="Trabalho">Trabalho</option>
+                                <option value="Prazo">Prazo</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                            
+                            <label for="cor-evento">Escolha uma cor:</label>
+                            <input type="color" id="cor-evento" value="#EBD9F5">
+
+                            <button type="submit">Salvar compromisso ♡</button>
+                        </form>
+                    </div>
+
+                    <!-- Próximos compromissos -->
+                     <div class="upcoming-events">
+                        <h3>Próximos compromissos ✨</h3>
+                        <div id="lista-eventos"></div>
+                    </div>
+                </div>
+
             </section>
         </main>
     </div>

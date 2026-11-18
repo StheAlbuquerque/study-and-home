@@ -572,3 +572,242 @@ header p:last-child {
     background-color: white;
     cursor: pointer;
 }
+
+/* Calendário mensal */
+.calendar-section {
+    margin-top: 30px;
+    padding: 28px;
+    background-color: #F8F6FC;
+    border: 1px solid #D9D5E8;
+    border-radius: 18px;
+}
+
+.calendar-section h2 {
+    margin-bottom: 8px;
+}
+
+.calendar-section > p {
+    margin-bottom: 22px;
+    color: #77718B;
+}
+
+/* Cabeçalho e navegação dos meses */
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.calendar-header h3 {
+    text-transform: capitalize;
+    font-size: 20px;
+}
+
+.calendar-header button {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 10px;
+    background-color: #E5E5F5;
+    color: #413D5E;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.calendar-header button:hover {
+    background-color: #B49CCE;
+}
+
+/* Dias da semana */
+.calendar-weekdays,
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-weekdays {
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: #77718B;
+}
+
+/* Espaços vazios antes do primeiro dia */
+.calendar-empty {
+    min-height: 75px;
+}
+
+/* Quadradinhos dos dias */
+.calendar-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    min-height: 75px;
+    padding: 10px 4px;
+    border: 1px solid #E3DDED;
+    border-radius: 12px;
+    background-color: white;
+    color: #413D5E;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.calendar-day:hover {
+    background-color: #EBD9F5;
+    transform: translateY(-2px);
+}
+
+.calendar-day.dia-selecionado {
+    background-color: #EBD9F5;
+    border: 2px solid #B49CCE;
+    font-weight: bold;
+}
+
+.calendar-day.dia-atual {
+    border: 2px solid #C2DDAE;
+}
+
+/* Bolinhas dos compromissos */
+.event-dots {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.event-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+/* Formulário de compromissos */
+.event-section {
+    margin-top: 30px;
+    padding: 22px;
+    background-color: #F0ECF8;
+    border-radius: 14px;
+}
+
+.event-section h3,
+.upcoming-events h3 {
+    margin-bottom: 16px;
+}
+
+#form-evento {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+#form-evento input[type="text"],
+#form-evento select {
+    min-width: 150px;
+    flex: 1;
+    padding: 11px;
+    border: 1px solid #B49CCE;
+    border-radius: 9px;
+    background-color: white;
+    color: #413D5E;
+}
+
+#form-evento input[type="color"] {
+    width: 45px;
+    height: 38px;
+    padding: 3px;
+    border: 1px solid #B49CCE;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+}
+
+#form-evento label {
+    font-size: 14px;
+}
+
+#form-evento button {
+    padding: 11px 16px;
+    border: none;
+    border-radius: 9px;
+    background-color: #B49CCE;
+    color: #413D5E;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#form-evento button:hover {
+    background-color: #C2DDAE;
+}
+
+/* Próximos compromissos */
+.upcoming-events {
+    margin-top: 30px;
+}
+
+.evento-card {
+    margin-bottom: 12px;
+    padding: 15px;
+    border-left: 5px solid #B49CCE;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 2px 3px 8px rgba(65, 61, 94, 0.08);
+}
+
+.evento-card h4 {
+    margin-bottom: 6px;
+}
+
+.evento-card p {
+    margin-bottom: 10px;
+    color: #77718B;
+    font-size: 14px;
+}
+
+.evento-card button {
+    padding: 7px 12px;
+    border: none;
+    border-radius: 7px;
+    background-color: #F5DCE5;
+    color: #413D5E;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .calendar-section {
+        padding: 15px;
+    }
+
+    .calendar-weekdays,
+    .calendar-days {
+        gap: 4px;
+    }
+
+    .calendar-day {
+        min-height: 55px;
+        padding: 7px 2px;
+        font-size: 13px;
+    }
+
+    .calendar-empty {
+        min-height: 55px;
+    }
+
+    #form-evento {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #form-evento input,
+    #form-evento select {
+        width: 100%;
+    }
+}
