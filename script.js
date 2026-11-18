@@ -297,11 +297,245 @@ mostrarMaterias();
 
 // Função para navegar entre as páginas
 function mostrarPagina(pagina) {
-    const secoes = ["inicio", "tarefas", "notas", "materias"];
+    const secoes = [
+        "inicio",
+        "tarefas",
+        "notas",
+        "materias",
+        "calendario"
+    ];
 
     secoes.forEach(function(nome) {
         document.getElementById(nome).style.display = "none";
     });
 
-    document.getElementById(pagina).style.display = "block";
+    const paginaSelecionada = document.getElementById(pagina);
+
+    if (paginaSelecionada) {
+        paginaSelecionada.style.display = "block";
+    }
 }
+
+// Elementos do calendário
+
+const mesAno = document.getElementById("mes-ano");
+const diasCalendario = document.getElementById("dias-calendario");
+const botaoMesAnterior = document.getElementById("mes-anterior");
+const botaoProximoMes = document.getElementById("proximo-mes");
+
+const formularioEvento = document.getElementById("form-evento");
+const nomeEvento = document.getElementById("nome-evento");
+const tipoEvento = document.getElementById("tipo-evento");
+const corEvento = document.getElementById("cor-evento");
+const listaEventos = document.getElementById("lista-eventos");
+const tituloFormularioEvento = document.getElementById("titulo-form-evento");
+
+let eventos = JSON.parse(localStorage.getItem("eventos")) || [];
+
+const hoje = new Date();
+
+let mesAtual = new Date(
+    hoje.getFullYear(),
+    hoje.getMonth(),
+    1
+);
+
+let dataSelecionada = 
+    hoje.getFullYear() + "-" +
+    String(hoje.getMonth() + 1).padStart(2, "0") + "-" +
+    String(hoje.getDate()).padStart(2, "0");
+
+function salvarEventos() {
+    localStorage.setItem("eventos", JSON.stringify(eventos));
+}
+
+// formatar uma data para exibição
+function formatarData(data) {
+    const partes = data.split("-");
+
+    const dataFormatada = new Date(
+        Number(partes[0]),
+        Number(partes[1]) - 1,
+        Number(partes[2])
+    );
+
+    return dataFormatada.toLocaleDateString("pt-BR");
+}
+
+// mostrar calendario na tela
+function mostrarCalendario() {
+    diasCalendario.innerHTML = "";
+
+    const ano = mesAtual.getFullYear();
+    const mes = mesAtual.getMonth();
+
+    const primeiroDia = new Date(ano, mes, 1).getDay();
+    const quantidadeDias = new Date(ano, mes + 1, 0).getDate();
+
+    mesAno.textContent = mesAtual.toLocaleString("pt-BR", {
+        month: "long",
+        year: "numeric"
+    });
+
+    for (let i = 0; i < primeiroDia; i++) {
+        const espaco = document.createElement("div");
+        espaco.classList.add("calendar-empty");
+        diasCalendario.appendChild(espaco);
+    }
+
+    for (let dia = 1; dia <= quantidadeDias; dia++) {
+        const botaoDia = document.createElement("button");
+
+        botaoDia.type = "button";
+        botaoDia.textContent = dia;
+        botaoDia.classList.add("calendar-day");
+
+        const dataDia = ano + "-" +
+            String(mes + 1).padStart(2, "0") + "-" +
+            String(dia).padStart(2, "0");
+
+        if (dataDia === dataSelecionada) {
+            botaoDia.classList.add("dia-selecionado");
+        }
+
+        const dataHoje = hoje.getFullYear() + "-" +
+            String(hoje.getMonth() + 1).padStart(2, "0") + "-" + 
+            String(hoje.getDate()).padStart(2, "0");
+
+        if (dataDia === dataHoje) {
+            botaoDia.classList.add("dia-atual");
+        }
+
+        // Mostrar bolinhas dos eventos
+        const eventosDoDia = eventos.filter(function(evento) {
+            return evento.data === dataDia;
+        });
+        
+        if (eventosDoDia.length > 0) {
+            const bolinhas = document.createElement("div");
+            bolinhas.classList.add("event-dots");
+
+            eventosDoDia.forEach(function(evento) {
+                const bolinha = document.createElement("span");
+                bolinha.style.backgroundColor = evento.cor;
+
+                bolinhas.appendChild(bolinha);
+            });
+
+            botaoDia.appendChild(bolinhas);
+        }
+
+        // Selecionar um dia
+        botaoDia.addEventListener("click", function() {
+            dataSelecionada = dataDia;
+
+            tituloFormularioEvento.textContent = "Adicionar evento em " + formatarData(dataDia) + " ♡";
+
+            mostrarCalendario();    
+        });
+
+        diasCalendario.appendChild(botaoDia);
+    }
+}
+
+// Mostrar os próximos compromissos
+function mostrarEventos() {
+    listaEventos.innerHTML = "";
+
+    const dataHoje = 
+        hoje.getFullYear() + "-" +
+        String(hoje.getMonth() + 1).padStart(2, "0") + "-" +
+        String(hoje.getDate()).padStart(2, "0");
+
+    const proximosEventos = eventos
+        .filter(function(evento) {
+            return evento.data >= dataHoje;
+        })
+        .sort(function(a, b) {
+            return a.data.localeCompare(b.data);
+        });
+
+    if (proximosEventos.length === 0) {
+        listaEventos.textContent = "Nenhum compromisso próximo. ♡";
+        return;
+    }
+
+    proximosEventos.forEach(function(evento, indice) {
+        const item = document.createElement("div");
+        item.classList.add("evento-card");
+        item.style.borderLeftColor = evento.cor;
+
+        const nome = document.createElement("h4");
+        nome.textContent = evento.nome;
+
+        const informacoes = document.createElement("p");
+        informacoes.textContent =
+            evento.tipo + " • " + formatarData(evento.data);
+
+        
+        const botaoExcluir = document.createElement("button");
+        botaoExcluir.type = "button";
+        botaoExcluir.textContent = "Excluir";
+
+        botaoExcluir.addEventListener("click", function() {
+            const indice = eventos.indexOf(evento);
+
+            eventos.splice(indice, 1);
+
+            salvarEventos();
+            mostrarCalendario();
+            mostrarEventos();
+        });
+        
+        item.appendChild(nome);
+        item.appendChild(informacoes);
+        item.appendChild(botaoExcluir);
+
+        listaEventos.appendChild(item);
+    });
+}
+
+// Adicionar um compromisso
+formularioEvento.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const nome = nomeEvento.value.trim();
+
+    if (nome === "") {
+        return;
+    }
+
+    const novoEvento = {
+        nome: nome,
+        tipo: tipoEvento.value,
+        cor: corEvento.value,
+        data: dataSelecionada
+    };
+
+    eventos.push(novoEvento);
+
+    salvarEventos();
+    mostrarCalendario();
+    mostrarEventos();
+
+    formularioEvento.reset();
+});
+
+// Ir para o mês anterior
+botaoMesAnterior.addEventListener("click", function() {
+    mesAtual.setMonth(mesAtual.getMonth() - 1);
+    mostrarCalendario();
+});
+
+// Ir para o próximo mês
+botaoProximoMes.addEventListener("click", function() {
+    mesAtual.setMonth(mesAtual.getMonth() + 1);
+    mostrarCalendario();
+});
+
+// Mostrar calendário e eventos ao carregar a página
+tituloFormularioEvento.textContent =
+    "Adicionar compromisso em " + formatarData(dataSelecionada) + " ♡";
+
+mostrarCalendario();
+mostrarEventos();
