@@ -173,6 +173,82 @@
                     </div>
                 </div>
 
+                <!-- Pomodoro -->
+                <div id="pomodoro" class="pomodoro-section">
+                    <h2>Meu Pomodoro 🍅</h2>
+                    <p>Organize seu tempo e faça uma pausa quando precisar.</p>
+
+                    <div class="pomodoro-card">
+                        <h3 id="modo-pomodoro">Hora de estudar 📚</h3>
+
+                        <div id="tempo-pomodoro">25:00</div>
+
+                        <p id="mensagem-pomodoro">
+                            Prepare-se para mais uma sessão de estudos!
+                        </p>
+
+                        <div class="pomodoro-botoes">
+                            <button type="button" id="iniciar-pomodoro">
+                                Iniciar
+                            </button>
+
+                            <button type="button" id="pausar-pomodoro">
+                                Pausar
+                            </button>
+
+                            <button type="button" id="reiniciar-pomodoro">
+                                Reiniciar
+                            </button>
+                        </div>
+
+                        <div class="personalizar-pomodoro">
+                            <h3>Personalizar meu Pomodoro ♡</h3>
+
+                            <label for="tempo-estudo">Tempo de estudo (minutos):</label>
+                            <input type="number" id="tempo-estudo" value="25" min="1">
+
+                            <label for="tempo-pausa-curta">Pausa curta (minutos):</label>
+                            <input type="number" id="tempo-pausa-curta" value="5" min="1">
+
+                            <label for="tempo-pausa-longa">Pausa longa (minutos):</label>
+                            <input type="number" id="tempo-pausa-longa" value="15" min="1">
+
+                            <button type="button" id="salvar-tempos">
+                                Salvar tempos ♡
+                            </button>
+                        </div>
+
+                        <div class="pomodoro-configuracao">
+                            <h3>Como deseja utilizar?</h3>
+
+                            <select id="modo-funcionamento">
+                                <option value="manual">Modo manual</option>
+                                <option value="automatico">Modo automático</option>
+                            </select>
+                        </div>
+
+                        <div class="pomodoro-troca">
+                            <h3>Escolha seu momento:</h3>
+
+                            <button type="button" id="modo-estudo">
+                                Estudar 📚
+                            </button>
+
+                            <button type="button" id="modo-pausa-curta">
+                                Pausa curta 🌷
+                            </button>
+
+                            <button type="button" id="modo-pausa-longa">
+                                Pausa longa ☁️
+                            </button>
+                        </div>
+
+                        <p class="contador-ciclos">
+                            Ciclos concluídos: <span id="ciclos-pomodoro">0</span>
+                        </p>
+                    </div>
+                </div>
+
             </section>
         </main>
     </div>
