@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Baixar código do projeto
-        uses: actions/checkout@v4
+        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
 
       - name: Analisar código com Semgrep
         run: |
@@ -36,8 +36,8 @@ jobs:
 
     steps:
       - name: Baixar código do projeto
-        uses: actions/checkout@v4
-
+        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608
+        
       - name: Iniciar aplicação
         run: |
           python3 -m http.server 8080 --bind 0.0.0.0 \
@@ -48,7 +48,7 @@ jobs:
             http://127.0.0.1:8080/
             
       - name: Analisar aplicação com OWASP ZAP
-        uses: zaproxy/action-baseline@v0.15.0
+        uses: zaproxy/action-baseline@de8ad967d3548d44ef623df22cf95c3b0baf8b25
         with:
           target: "http://127.0.0.1:8080"
           fail_action: true
